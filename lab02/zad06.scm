@@ -16,8 +16,7 @@
           (factorial_help n (+ i 1) (* i acc)))
       )
 
-(define (factorialb n)
+(define (factorialRec n)
       (factorial_help n 1 1))
 
-(factorialb 4)
-
+(factorialRec 4)
