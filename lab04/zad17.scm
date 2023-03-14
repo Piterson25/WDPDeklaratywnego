@@ -11,7 +11,6 @@
 (append '(5 3 4 2) '(2 1 3 7))
 
 "b)"
-
 (define (length e)
   (if (null? e)
       0
@@ -53,4 +52,14 @@
 
 (pairing '(1 2 3) '(a b c))
 
+"f)"
+(define (split x l)
+  (cond ((null? l) (list '() '()))
+        ((<= (car l) x)
+         (let ((splitted (split x (cdr l))))
+           (list (cons (car l) (car splitted)) (cadr splitted))))
+        (else
+         (let ((splitted (split x (cdr l))))
+           (list (car splitted) (cons (car l) (cadr splitted)))))))
 
+(split 1 '(1 2 3))
