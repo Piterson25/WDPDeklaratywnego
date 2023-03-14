@@ -8,7 +8,7 @@
       m
       (cons (car l) (append (cdr l) m))))
 
-(append (list 5 3 4 2) (list 2 1 3 7))
+(append '(5 3 4 2) '(2 1 3 7))
 
 "b)"
 
@@ -21,15 +21,15 @@
       l
       (last (cdr l))))
 
-(last (list 2 1 3 7))
+(last '(2 1 3 7))
 
 "c)"
 (define (reverse l)
   (if (null? l)
       '()
-      (append (reverse (cdr l)) (list (car l)))))
+      (append (reverse (cdr l)) (list(car l)))))
 
-(reverse (list 1 2))
+(reverse '(1 2))
 
 "d)"
 (define (member? x e)
@@ -40,7 +40,17 @@
   (if (member? x l)
     (if (= (car l) x)
         (cdr l)
-        (append (list (car l)) (delete x (cdr l))))
+        (append (list(car l)) (delete x (cdr l))))
     '()))
 
-(delete 7 (list 2 1 3 7))
+(delete 7 '(2 1 3 7))
+
+"e)"
+(define (pairing l1 l2)
+  (if (or (null? l1) (null? l2))
+      '()
+      (append (list(cons (car l1) (car l2))) (pairing (cdr l1) (cdr l2)))))
+
+(pairing '(1 2 3) '(a b c))
+
+
