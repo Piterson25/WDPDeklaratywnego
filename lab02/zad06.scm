@@ -1,22 +1,32 @@
 #lang scheme
 
-"6 a)"
+;; a)
 
 (define (factorial n)
-  (if (>= n 1)
-      (* n (factorial (- n 1)))
-      1))
+  (cond ((<= n 1) 1)
+      (else (* n (factorial (- n 1))))))
 
 (factorial 4)
+;; (* 4 (factorial 3))
+;; (* 4 (* 3 (factorial 2)))
+;; (* 4 (* 3 (* 2 (factorial 1))))
+;; (* 4 (* 3 (* 2 1)))
+;; (* 4 (* 3 2))
+;; (* 4 6)
+;; 24
 
-"6 b)"
-(define (factorial_help n i acc)
-      (if (< n i)
-          acc
-          (factorial_help n (+ i 1) (* i acc)))
-      )
+;; b)
 
-(define (factorialRec n)
-      (factorial_help n 1 1))
+(define (factorial-help n i acc)
+  (cond ((< n i) acc)
+      (else (factorial-help n (+ i 1) (* i acc)))))
 
-(factorialRec 4)
+(define (factorial-tail n)
+  (factorial-help n 1 1))
+
+(factorial-tail 4)
+;; (factorial_help 4 1 1)
+;; (factorial_help 4 2 2)
+;; (factorial_help 4 3 6)
+;; (factorial_help 4 4 24)
+;; 24
