@@ -3,21 +3,11 @@
 (define (f g)
   (g 2))
 
-"13 a)"
-
 (define (square x)
   (* x x))
 
-(f square)
+(f square) ; 4
 
-"13 b)"
-
-(define function
-  (lambda (z)
-    (+ z (* 3 z))))
+(f (lambda (z) (+ z (* 3 z)))) ; 8
     
-(f function)
-
-"13 c)"
-
-;(f f) <- Infinite loop
+(f f) ; nieskonczona petla
