@@ -7,12 +7,12 @@
 (set-mcar! (mcar z1) 'g)
 (set-mcar! (mcar z2) 'g)
 
-(define (mlist l)
-  (if (null? l)
-      '()
-      (let ((cell (mcons (car l) '())))
-        (set-mcdr! cell (mlist (cdr l)))
-        cell)))
+(define (mlist l) 
+    (if (empty? l) 
+        `()
+        (mcons (car l) (mlist (cdr l)))
+    )
+)
 
 (display z1)
 (newline)
