@@ -1,38 +1,36 @@
 #lang scheme
 
-"18."
+;; a)
 
-(define (append l m)
-  (if (null? l)
-      m
-      (cons (car l) (append (cdr l) m))))
-
-(define (square x)
-    (* x x))
-
-"a)"
 (define (square-list l)
   (if (null? l)
       '()
-      (append (list(square(car l))) (square-list (cdr l)))))
+      (cons (* (car l) (car l))
+            (square-list (cdr l)))))
 
 (square-list '(5 3 7 8))
 
-"b)"
+;; b)
+
+(define (square x) 
+  (* x x))
+
 (define (mapf f l)
   (if (null? l)
       '()
-      (append (list(f (car l))) (mapf f (cdr l)))))
+      (cons (f (car l))
+            (mapf f (cdr l)))))
 
 (mapf square '(5 3 7 1))
 
-"c)"
+;; c)
+
+(define (is-even? x) 
+  (even? x))
+
 (define (filter pred l)
   (cond ((null? l) '())
         ((pred (car l)) (cons (car l) (filter pred (cdr l))))
         (else (filter pred (cdr l)))))
 
-(define (lower-than-five x)
-  (< x 5))
-
-(filter lower-than-five '(5 3 7 1))
+(filter is-even? '(5 3 2 4 1))
