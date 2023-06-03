@@ -1,2 +1,2 @@
 # WDPDeklaratywnego
-Wstęp do programowania deklaratywnego - Scheme
+Wstęp do programowania deklaratywnego - Scheme i Prolog
