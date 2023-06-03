@@ -1,43 +1,25 @@
 #lang scheme
 
-"12"
+(define (filter-accumulate combiner pred null-value term next a b)
+  (cond ((> a b) null-value)
+    ((pred a) (combiner (term a) (filter-accumulate combiner pred null-value term next (next a) b)))
+    (else (filter-accumulate combiner pred null-value term next (next a) b))))
 
-(define (filter-accumulate combiner null-value term a next b pred)
-  (if (> a b)
-      null-value
-      (let ((next-a (next a)))
-        (if (pred a)
-            (combiner (term a)
-                      (filter-accumulate combiner null-value term (next a) next b pred))
-            (filter-accumulate combiner null-value term (next a) next b pred)))))
+(define (prime? a (i 2))
+  (cond ((> (* i 2) a) #t)
+    ((= (modulo a i) 0) #f)
+    (else (prime? a (+ 1 i)))))
 
-(define (prime? n)
-  (define (iter i)
-    (cond ((< i 2) #f)
-          ((= i 2) #t)
-          ((even? i) #f)
-          (else (let ((sqrt-n (floor (sqrt n))))
-                  (if (> i sqrt-n)
-                      #t
-                      (if (= 0 (modulo n i))
-                          #f
-                          (iter (+ i 2))))))))
-  (iter n))
-
-(define (sum-of-prime-squares a b)
-  (filter-accumulate + 0 (lambda (x) (* x x)) a (lambda (x) (+ x 1)) b prime?))
-
+(filter-accumulate + prime? 0 (lambda (a) (* a a)) (lambda (a) (+ 1 a)) 3 7)
 
 (define (nwd a b)
-  (if (= b 0)
-      a
-      (nwd b (modulo a b))))
+  (cond ((= a b) a)
+    ((> a b) (nwd (- a b) b))
+    (else (nwd a (- b a)))))
 
-(define (coprime? a b)
-  (= (nwd a b) 1))
+(define (smaller? i n) 
+  (< i n))
+(define (pred-zad-12 i) 
+  (and (smaller? i 6) (= (nwd i 6) 1)))
 
-(define (product-of-coprime n)
-  (filter-accumulate * 1 (lambda (x) x) 1 (lambda (x) (+ x 1)) n (lambda (i) (coprime? i n))))
-
-(sum-of-prime-squares 5 9)
-(product-of-coprime 7)
+(filter-accumulate * pred-zad-12 1 identity (lambda (a) (+ 1 a)) 1 9)
