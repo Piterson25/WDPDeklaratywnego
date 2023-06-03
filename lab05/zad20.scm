@@ -1,16 +1,61 @@
 #lang scheme
 
-"20."
-
 (define (deriv exp var)
   (cond ((constant? exp) 0)
-        ((variable? exp)
-         (if(same-variable? exp var) 1 0))
-        ((sum? exp)
-         (make-sum
-          (deriv (addend exp) var)
-          (deriv (augend exp) var)))
-        ((product? sum)
-         (make-sum
-          (make-product...)
-          (make-product...)))))
+      ((variable? exp) (if (same-variable? exp var) 1 0))
+      ((sum? exp) (make-sum (deriv (second exp) var) (deriv (third exp) var)))
+      ((product? exp) (make-product (second exp) (third exp) var))
+      ((power? exp) (make-power (second exp) (third exp)))))
+
+(define (atom? x)
+  (and (not (pair? x)) (not (null? x))))
+(define (constant? exp)
+  (number? exp))
+(define (variable? exp)
+  (symbol? exp))
+(define (same-variable? x y)
+  (and (variable? x) (variable? y) (eq? x y)))
+
+(define (sum? exp)
+  (if (not (atom? exp))
+      (eq? (car exp) '+)
+      (error ".....")))
+
+(define (product? exp)
+  (if (not (atom? exp))
+      (eq? (car exp) '*)
+      (error ".....")))
+
+(define (power? exp)
+  (if (not (atom? exp))
+      (eq? (car exp) '^)
+      (error ".....")))
+
+(define (second sum)
+  (cadr sum))
+(define (third sum)
+  (caddr sum))
+
+(define (make-sum a b) 
+    (cond ((eq? a 0) b)
+    ((not (eq? b 0)) (list '+ a b))
+    (else a))
+)
+(define (make-product a b var) 
+    (cond 
+        ((and (variable? a) (variable? b) (same-variable? a var)) b)
+        ((and (variable? a) (variable? b) (same-variable? b var)) a)
+        ((and (variable? a) (constant? b) (same-variable? a var)) b)
+        ((and (constant? a) (variable? b) (same-variable? b var)) a)
+        (else 0)
+    )
+)
+(define (make-power x n) 
+    (list '* n (list '^ x (- n 1)))
+)
+
+(deriv '(* x y) 'x)
+(deriv '(* 5 y) 'x)
+(deriv '(* 5 x) 'x)
+(deriv '(+ (* a x) b) 'x)
+(deriv '(^ x 4) 'x)
