@@ -1,24 +1,16 @@
 #lang scheme
 
-"10"
-
 (define (product term next a b)
   (if (> a b)
       1
       (* (term a) (product term next (next a) b))))
 
 (define (silnia n)
-  (product (lambda (x) x)
-           (lambda (x) (+ x 1))
-           1
-           n))
-
-(define (sum-pi a b)
-  (product (lambda (x) (/ 1 (* x (+ x 2))))
-           (lambda (x) (+ x 4))
-           a
-           b))
+  (product identity (lambda (x) (+ x 1)) 1 n))
 
 (silnia 5)
 
-(sum-pi 4 4)
+(define (sum-pi n)
+  (* 4.0 (product (lambda (x) (/ (* (- x 1) (+ x 1)) (* x x))) (lambda (a) (+ a 2)) 3 n)))
+
+(sum-pi 4)
