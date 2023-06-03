@@ -1,30 +1,14 @@
 #lang scheme
 
-"11"
-
-(define (accumulate combiner null-value term a next b)
+(define (accumulate combiner null-value term next a b)
   (if (> a b)
       null-value
-      (combiner (term a)
-          (accumulate combiner null-value term (next a) next b))))
+      (combiner (term a) (accumulate combiner null-value term next (next a) b))))
 
-(define (sum term a next b)
-  (accumulate + 0 term a next b))
+(define (accumulate-sum a b) 
+  (accumulate + 0 identity (lambda (a) (+ 1 a)) a b))
+(accumulate-sum 2 5)
 
-(define (product term a next b)
-  (accumulate * 1 term a next b))
-
-(define (suma n)
-  (sum (lambda (x) x)
-            1
-           (lambda (x) (+ x 1))
-           n))
-
-(define (silnia n)
-  (product (lambda (x) x)
-            1
-           (lambda (x) (+ x 1))
-           n))
-
-(suma 6)
-(silnia 6)
+(define (accumulate-product a b) 
+  (accumulate * 1 identity (lambda (a) (+ 1 a)) a b))
+(accumulate-product 2 5)
