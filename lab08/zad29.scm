@@ -1,11 +1,14 @@
 #lang scheme
 
 (define (counting-version f)
-  (let ((count 0))
-    (lambda (x)
-      (cond ((eq? x 'how-often) count)
-            ((eq? x 'reset) (begin (set! count 0) count))
-            (else (begin (set! count (+ count 1)) (f x)))))))
+  (define times 0)
+    (lambda (x) 
+        (cond
+            ((eq? x 'how-often) times)
+            ((eq? x 'reset) (begin (set! times 0) times))
+            (else (begin (set! times (+ times 1)) (f x)))
+        )
+    ))
 
 (define (square x)
   (* x x))
