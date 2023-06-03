@@ -1,16 +1,12 @@
 #lang scheme
 
-"16."
-
 (define (iter f n)
   (lambda (x)
-    (let loop ((i 0) (acc x))
-      (if (= i n)
-          acc
-          (loop (+ i 1) (f acc))))))
+    (if (= n 0)
+        x
+        ((iter f (- n 1)) (f x)))))
 
-(define add+1 (lambda(x) (+ x 1)))
-(define add+1_iter (iter add+1 3))
+(define (square x)
+  (* x x))
 
-(add+1_iter 5)
-  
+((iter square 3) 2)
