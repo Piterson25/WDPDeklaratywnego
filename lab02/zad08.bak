@@ -1,7 +1,0 @@
-#lang scheme
-
-"8 a)"
-
-(define (exp b e)
-  ()
-  )
